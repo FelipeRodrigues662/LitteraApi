@@ -11,6 +11,8 @@ const bookRoute = require('./src/routes/bookRoute.js');
 const preferenciasRoute = require('./src/routes/preferenciasRoute.js');
 const userRoute = require('./src/routes/userRoute.js');
 
+const app = express();
+
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
