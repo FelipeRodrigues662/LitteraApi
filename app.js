@@ -41,7 +41,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', apiRoutes);
 
 const PORT = 3000;
-
+ 
 async function startServer() {
   try {
     // Connect to database
