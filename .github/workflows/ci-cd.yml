@@ -30,7 +30,7 @@ jobs:
 
     - name: Push Docker image
       run: |
-        docker push hfb.digital/litteraapi:latest
+        docker push feliperodrigues662/litteraapi:latest
 
   deploy:
     runs-on: ubuntu-latest
