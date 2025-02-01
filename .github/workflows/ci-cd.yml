@@ -26,7 +26,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Build Docker image
-      run: docker build -t hfb.digital/litteraapi:latest .
+      run: docker build -t feliperodrigues662/litteraapi:latest .
 
     - name: Push Docker image
       run: |
@@ -45,9 +45,9 @@ jobs:
     - name: Deploy to VPS
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-        docker pull hfb.digital/litteraapi:latest || { echo "Falha ao puxar a imagem"; exit 1; }
+        docker pull feliperodrigues662/litteraapi:latest || { echo "Falha ao puxar a imagem"; exit 1; }
         docker stop littera-api || true
         docker rm littera-api || true
-        docker run -d --name littera-api -p 3030:3030 hfb.digital/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
+        docker run -d --name littera-api -p 3030:3030 feliperodrigues662/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
         curl -f http://localhost:3030/health || { echo "Aplicação não está saudável"; exit 1; }
         EOF
