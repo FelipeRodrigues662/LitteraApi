@@ -12,7 +12,7 @@ services:
       MARIADB_PASSWORD: admin
       MARIADB_ROOT_PASSWORD: admin
     networks:
-      - Banco
+      - littera-network
 
   myadmin:
     container_name: MYADMIN
@@ -25,7 +25,7 @@ services:
     depends_on:
       - db  # Garante que o MariaDB seja iniciado antes do phpMyAdmin
     networks:
-      - Banco
+      - littera-network
 
   app:
     container_name: node-app
@@ -40,12 +40,14 @@ services:
     environment:
         DB_HOST: db
     restart: unless-stopped
+    depends_on:
+      - db  
     networks:
-      - Banco
+      - littera-network
 
 volumes:
   VOL1:
 
 networks:
-  Banco:
+  littera-network:
     driver: bridge
