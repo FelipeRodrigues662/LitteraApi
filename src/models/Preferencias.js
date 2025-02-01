@@ -5,8 +5,8 @@ const { type } = require('os');
 
 const Preferencias = sequelize.define('Preferencias', {
     id: {
-        type: DataTypes.Integer,
-        defaultValue: DataTypes.Integer,
+        type: DataTypes.INTEGER,
+        defaultValue: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
     },

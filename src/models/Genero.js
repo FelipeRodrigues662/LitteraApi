@@ -5,8 +5,8 @@ const { type } = require('os');
 
 const Genero = sequelize.define('Genero', {
     id: {
-        type: DataTypes.Integer,
-        defaultValue: DataTypes.Integer,
+        type: DataTypes.INTEGER,
+        defaultValue: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
     },

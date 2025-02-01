@@ -5,8 +5,8 @@ const { type } = require('os');
 
 const StatusBook = sequelize.define('StatusBook', {
     id: {
-        type: DataTypes.Integer,
-        defaultValue: DataTypes.Integer,
+        type: DataTypes.INTEGER,
+        defaultValue: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
     },

@@ -5,8 +5,8 @@ const { type } = require('os');
 
 const TypeTransaction = sequelize.define('TypeTransaction', {
     id: {
-        type: DataTypes.Integer,
-        defaultValue: DataTypes.Integer,
+        type: DataTypes.INTEGER,
+        defaultValue: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
     },
