@@ -40,9 +40,6 @@ jobs:
     needs: build
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
     - name: Add SSH key
       uses: webfactory/ssh-agent@v0.7.0
       with:
@@ -52,8 +49,9 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
         # Comandos para executar na VPS
-        docker pull hfb.digital/LitteraApi:latest
+        docker pull hfb.digital/LitteraApi:latest || { echo "Falha ao puxar a imagem"; exit 1; }
         docker stop littera-api || true
         docker rm littera-api || true
-        docker run -d --name littera-api -p 3030:3030 hfb.digital/LitteraApi:latest
+        docker run -d --name littera-api -p 3030:3030 hfb.digital/LitteraApi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
+        curl -f http://localhost:3030/health || { echo "Aplicação não está saudável"; exit 1; }
         EOF
