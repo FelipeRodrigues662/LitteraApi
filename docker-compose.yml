@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: MARIADB
+    image: mariadb:latest
+    hostname: db
+    volumes:
+      - VOL1:/var/lib/mysql
+    environment:
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: admin
+      MARIADB_ROOT_PASSWORD: admin
+    networks:
+      - Banco
+
+  myadmin:
+    container_name: MYADMIN
+    image: phpmyadmin/phpmyadmin
+    hostname: myadmin
+    environment:
+      PMA_HOST: db  # Conecta ao serviço "db" (MariaDB)
+    ports:
+      - "8080:80"  # Expõe o phpMyAdmin na porta 8080 do host
+    depends_on:
+      - db  # Garante que o MariaDB seja iniciado antes do phpMyAdmin
+    networks:
+      - Banco
+
+  app:
+    container_name: node-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3030:3030"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    networks:
+      - Banco
+
+volumes:
+  VOL1:
+
+networks:
+  Banco:
+    driver: bridge
