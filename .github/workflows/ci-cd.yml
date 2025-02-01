@@ -48,6 +48,13 @@ jobs:
         docker pull feliperodrigues662/litteraapi:latest || { echo "Falha ao puxar a imagem"; exit 1; }
         docker stop littera-api || true
         docker rm littera-api || true
-        docker run -d --name littera-api -p 3030:3030 feliperodrigues662/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
+        docker run -d --name littera-api -p 3030:3030 \
+          -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+          -e DB_HOST=${{ secrets.DB_HOST }} \
+          -e DB_USER=${{ secrets.DB_USER }} \
+          -e DB_PASS=${{ secrets.DB_PASS }} \
+          -e DB_NAME=${{ secrets.DB_NAME }} \
+          -e PORT=${{ secrets.PORT }} \
+          feliperodrigues662/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
         curl -f http://localhost:3030/health || { echo "Aplicação não está saudável"; exit 1; }
         EOF
