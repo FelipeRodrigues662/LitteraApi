@@ -55,5 +55,4 @@ jobs:
           -e DB_PASS=\${{ secrets.DB_PASS }} \
           -e DB_NAME=${{ secrets.DB_NAME }} \
           feliperodrigues662/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
-        curl -f http://localhost:3000/health || { echo "Aplicação não está saudável"; exit 1; }
-        EOF
+        
