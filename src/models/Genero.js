@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const { isMobilePhone } = require('validator');
-const { type } = require('os');
 
 const Genero = sequelize.define('Genero', {
     id: {

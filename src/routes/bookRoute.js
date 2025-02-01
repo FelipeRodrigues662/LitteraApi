@@ -3,18 +3,14 @@ const router = express.Router();
 const bookController = require('../controllers/BookController.js');
 const authMiddleware = require('../middleware/auth.js');
 
-/**
- * @swagger
- * tags:
- *   name: Books
- *   description: API for managing books
- */
 
 /**
  * @swagger
  * /api/books:
  *   post:
  *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Create a new book
  *     requestBody:
  *       required: true
@@ -51,6 +47,8 @@ router.post('/books', authMiddleware, bookController.createBook);
  * /api/books:
  *   get:
  *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get all books
  *     responses:
  *       200:
@@ -63,6 +61,8 @@ router.get('/books', authMiddleware, bookController.getAllBooks);
  * /api/books/{id}:
  *   get:
  *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a book by ID
  *     parameters:
  *       - in: path
@@ -83,6 +83,8 @@ router.get('/books/:id', authMiddleware, bookController.getBookById);
  * /api/books/{id}:
  *   put:
  *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Update a book by ID
  *     parameters:
  *       - in: path
@@ -119,6 +121,8 @@ router.put('/books/:id', authMiddleware, bookController.updateBook);
  * /api/books/{id}:
  *   delete:
  *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Delete a book by ID
  *     parameters:
  *       - in: path

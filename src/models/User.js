@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const { isMobilePhone } = require('validator');
-const bcrypt = require('bcryptjs');
 
 const User = sequelize.define('User', {
     id: {

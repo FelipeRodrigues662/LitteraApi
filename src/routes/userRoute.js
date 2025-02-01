@@ -1,24 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/UserController.js');
+const authMiddleware = require('../middleware/auth.js');
 
 /**
  * @swagger
  * /api/users:
  *   get:
  *     tags: [Usuários]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Buscar todos os usuários
  *     responses:
  *       200:
  *         description: Lista de usuários retornada com sucesso
  */
-router.get('/users', userController.getAllUsers);
+router.get('/users', authMiddleware, userController.getAllUsers);
 
 /**
  * @swagger
  * /api/users/{id}:
  *   get:
  *     tags: [Usuários]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Buscar um usuário por ID
  *     parameters:
  *       - in: path
@@ -33,13 +38,15 @@ router.get('/users', userController.getAllUsers);
  *       404:
  *         description: Usuário não encontrado
  */
-router.get('/users/:id', userController.getUserById);
+router.get('/users/:id', authMiddleware, userController.getUserById);
 
 /**
  * @swagger
  * /api/users/{id}:
  *   put:
  *     tags: [Usuários]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Atualizar um usuário
  *     parameters:
  *       - in: path
@@ -67,13 +74,15 @@ router.get('/users/:id', userController.getUserById);
  *       404:
  *         description: Usuário não encontrado
  */
-router.put('/users/:id', userController.updateUser);
+router.put('/users/:id', authMiddleware, userController.updateUser);
 
 /**
  * @swagger
  * /api/users/{id}:
  *   delete:
  *     tags: [Usuários]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Deletar um usuário
  *     parameters:
  *       - in: path
@@ -88,6 +97,6 @@ router.put('/users/:id', userController.updateUser);
  *       404:
  *         description: Usuário não encontrado
  */
-router.delete('/users/:id', userController.deleteUser);
+router.delete('/users/:id', authMiddleware, userController.deleteUser);
 
 module.exports = router;

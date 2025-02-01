@@ -8,6 +8,8 @@ const authMiddleware = require('../middleware/auth.js');
  * /api/preferencias:
  *   post:
  *     tags: [Preferencias]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Criar uma nova preferência
  *     requestBody:
  *       required: true
@@ -30,6 +32,8 @@ router.post('/preferencias', authMiddleware, preferenciasController.createPrefer
  * /api/preferencias:
  *   get:
  *     tags: [Preferencias]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Buscar todas as preferências
  *     responses:
  *       200:
@@ -42,6 +46,8 @@ router.get('/preferencias', authMiddleware, preferenciasController.getAllPrefere
  * /api/preferencias/{id}:
  *   get:
  *     tags: [Preferencias]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Buscar uma preferência por ID
  *     parameters:
  *       - in: path
@@ -63,6 +69,8 @@ router.get('/preferencias/:id', authMiddleware, preferenciasController.getPrefer
  * /api/preferencias/{id}:
  *   put:
  *     tags: [Preferencias]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Atualizar uma preferência
  *     parameters:
  *       - in: path
@@ -94,6 +102,8 @@ router.put('/preferencias/:id', authMiddleware, preferenciasController.updatePre
  * /api/preferencias/{id}:
  *   delete:
  *     tags: [Preferencias]
+ *     security:
+ *       - bearerAuth: []
  *     summary: Deletar uma preferência
  *     parameters:
  *       - in: path
