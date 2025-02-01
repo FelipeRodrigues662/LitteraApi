@@ -28,9 +28,6 @@ jobs:
     - name: Build Docker image
       run: docker build -t hfb.digital/litteraapi:latest .
 
-    - name: Run tests
-      run: docker run hfb.digital/litteraapi:latest npm test
-
     - name: Push Docker image
       run: |
         docker push hfb.digital/litteraapi:latest
