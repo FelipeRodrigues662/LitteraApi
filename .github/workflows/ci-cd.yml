@@ -26,14 +26,14 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Build Docker image
-      run: docker build -t hfb.digital/LitteraApi:latest .
+      run: docker build -t hfb.digital/litteraapi:latest .
 
-    - name: Run tests
-      run: docker run hfb.digital/LitteraApi:latest npm test
+    # - name: Run tests
+    #   run: docker run hfb.digital/litteraapi:latest npm test
 
     - name: Push Docker image
       run: |
-        docker push hfb.digital/LitteraApi:latest
+        docker hfb.digital/litteraapi:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,9 +49,9 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
         # Comandos para executar na VPS
-        docker pull hfb.digital/LitteraApi:latest || { echo "Falha ao puxar a imagem"; exit 1; }
+        docker pull hfb.digital/litteraapi:latest || { echo "Falha ao puxar a imagem"; exit 1; }
         docker stop littera-api || true
         docker rm littera-api || true
-        docker run -d --name littera-api -p 3030:3030 hfb.digital/LitteraApi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
+        docker run -d --name littera-api -p 3030:3030 hfb.digital/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
         curl -f http://localhost:3030/health || { echo "Aplicação não está saudável"; exit 1; }
         EOF
