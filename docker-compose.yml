@@ -1,32 +1,6 @@
 version: '3.8'
 
 services:
-  db:
-    container_name: MARIADB
-    image: mariadb:latest
-    hostname: db
-    volumes:
-      - VOL1:/var/lib/mysql
-    environment:
-      MARIADB_USER: admin
-      MARIADB_PASSWORD: admin
-      MARIADB_ROOT_PASSWORD: admin
-    networks:
-      - littera-network
-
-  myadmin:
-    container_name: MYADMIN
-    image: phpmyadmin/phpmyadmin
-    hostname: myadmin
-    environment:
-      PMA_HOST: db  # Conecta ao serviço "db" (MariaDB)
-    ports:
-      - "8080:80"  # Expõe o phpMyAdmin na porta 8080 do host
-    depends_on:
-      - db  # Garante que o MariaDB seja iniciado antes do phpMyAdmin
-    networks:
-      - littera-network
-
   app:
     container_name: node-app
     build:
@@ -38,16 +12,9 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-        DB_HOST: db
+        DB_PORT: 3306
     restart: unless-stopped
-    depends_on:
-      - db  
-    networks:
-      - littera-network
+    
 
 volumes:
   VOL1:
-
-networks:
-  littera-network:
-    driver: bridge

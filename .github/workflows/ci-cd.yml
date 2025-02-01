@@ -50,6 +50,7 @@ jobs:
         docker rm littera-api || true
         docker run -d --name littera-api -p 3000:3000 \
           -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+          -e DB_HOST=${{ secrets.DB_HOST }} \
           -e DB_USER=${{ secrets.DB_USER }} \
           -e DB_PASS=${{ secrets.DB_PASS }} \
           -e DB_NAME=${{ secrets.DB_NAME }} \
