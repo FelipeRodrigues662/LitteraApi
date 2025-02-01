@@ -40,7 +40,7 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', apiRoutes);
 
-const PORT = 3030;
+const PORT = 3000;
 
 async function startServer() {
   try {

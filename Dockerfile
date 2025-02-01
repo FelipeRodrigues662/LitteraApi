@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expor a porta da aplicação
-EXPOSE 3030
+EXPOSE 3000
 
 # Definir o comando para iniciar a aplicação
 CMD ["node", "app.js"]
