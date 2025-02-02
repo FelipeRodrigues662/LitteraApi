@@ -1,63 +1,48 @@
 const Preferencias = require('../models/Preferencias.js');
 
-exports.createPreferencia = async (req, res) => {
+exports.createPreferencias = async (req, res) => {
   try {
-    const { name } = req.body;
-    const preferencia = await Preferencias.create({ name });
-    res.status(201).json({ message: 'Preferência criada com sucesso', preferencia });
+    const { generos } = req.body;
+    const userId = req.user.id;
+    
+    if (!Array.isArray(generos) || generos.length === 0) {
+      return res.status(400).json({ message: 'A lista de gêneros deve ser um array e não pode estar vazia' });
+    }
+
+    const preferencias = await Promise.all(
+      generos.map(async (GeneroId) => {
+        return await Preferencias.create({ userId, GeneroId });
+      })
+    );
+
+    res.status(201).json({ message: 'Preferências criadas com sucesso', preferencias });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao criar preferência', error: error.message });
+    res.status(500).json({ message: 'Erro ao criar preferências', error: error.message });
   }
 };
 
-exports.getAllPreferencias = async (req, res) => {
+exports.getPreferenciasByUserId = async (req, res) => {
   try {
-    const preferencias = await Preferencias.findAll();
+    const { userId } = req.params;
+    const preferencias = await Preferencias.findAll({ where: { userId } });
+    if (preferencias.length === 0) {
+      return res.status(404).json({ message: 'Nenhuma preferência encontrada para este usuário' });
+    }
     res.status(200).json({ preferencias });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar preferências', error: error.message });
   }
 };
 
-exports.getPreferenciaById = async (req, res) => {
+exports.deletePreferenciasByUserId = async (req, res) => {
   try {
-    const { id } = req.params;
-    const preferencia = await Preferencias.findByPk(id);
-    if (!preferencia) {
-      return res.status(404).json({ message: 'Preferência não encontrada' });
+    const { userId } = req.params;
+    const deletedCount = await Preferencias.destroy({ where: { userId } });
+    if (deletedCount === 0) {
+      return res.status(404).json({ message: 'Nenhuma preferência encontrada para deletar' });
     }
-    res.status(200).json({ preferencia });
+    res.status(200).json({ message: 'Preferências deletadas com sucesso' });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao buscar preferência', error: error.message });
-  }
-};
-
-exports.updatePreferencia = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name } = req.body;
-    const preferencia = await Preferencias.findByPk(id);
-    if (!preferencia) {
-      return res.status(404).json({ message: 'Preferência não encontrada' });
-    }
-    preferencia.name = name || preferencia.name;
-    await preferencia.save();
-    res.status(200).json({ message: 'Preferência atualizada com sucesso', preferencia });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao atualizar preferência', error: error.message });
-  }
-};
-
-exports.deletePreferencia = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const preferencia = await Preferencias.findByPk(id);
-    if (!preferencia) {
-      return res.status(404).json({ message: 'Preferência não encontrada' });
-    }
-    await preferencia.destroy();
-    res.status(200).json({ message: 'Preferência deletada com sucesso' });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao deletar preferência', error: error.message });
+    res.status(500).json({ message: 'Erro ao deletar preferências', error: error.message });
   }
 };

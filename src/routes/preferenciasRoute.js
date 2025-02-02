@@ -10,7 +10,7 @@ const authMiddleware = require('../middleware/auth.js');
  *     tags: [Preferencias]
  *     security:
  *       - bearerAuth: []
- *     summary: Criar uma nova preferência
+ *     summary: Criar novas preferências para um usuário
  *     requestBody:
  *       required: true
  *       content:
@@ -18,106 +18,61 @@ const authMiddleware = require('../middleware/auth.js');
  *           schema:
  *             type: object
  *             properties:
- *               name:
- *                 type: string
- *                 example: "Ficção"
+ *               generos:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2, 3]
  *     responses:
  *       201:
- *         description: Preferência criada com sucesso
+ *         description: Preferências criadas com sucesso
  */
-router.post('/preferencias', authMiddleware, preferenciasController.createPreferencia);
+router.post('/preferencias', authMiddleware, preferenciasController.createPreferencias);
 
 /**
  * @swagger
- * /api/preferencias:
+ * /api/preferencias/{userId}:
  *   get:
  *     tags: [Preferencias]
  *     security:
  *       - bearerAuth: []
- *     summary: Buscar todas as preferências
+ *     summary: Buscar todas as preferências de um usuário
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do usuário
  *     responses:
  *       200:
  *         description: Lista de preferências retornada com sucesso
- */
-router.get('/preferencias', authMiddleware, preferenciasController.getAllPreferencias);
-
-/**
- * @swagger
- * /api/preferencias/{id}:
- *   get:
- *     tags: [Preferencias]
- *     security:
- *       - bearerAuth: []
- *     summary: Buscar uma preferência por ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID da preferência
- *     responses:
- *       200:
- *         description: Preferência retornada com sucesso
  *       404:
- *         description: Preferência não encontrada
+ *         description: Nenhuma preferência encontrada
  */
-router.get('/preferencias/:id', authMiddleware, preferenciasController.getPreferenciaById);
+router.get('/preferencias/:userId', authMiddleware, preferenciasController.getPreferenciasByUserId);
 
 /**
  * @swagger
- * /api/preferencias/{id}:
- *   put:
- *     tags: [Preferencias]
- *     security:
- *       - bearerAuth: []
- *     summary: Atualizar uma preferência
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID da preferência
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 example: "Suspense"
- *     responses:
- *       200:
- *         description: Preferência atualizada com sucesso
- *       404:
- *         description: Preferência não encontrada
- */
-router.put('/preferencias/:id', authMiddleware, preferenciasController.updatePreferencia);
-
-/**
- * @swagger
- * /api/preferencias/{id}:
+ * /api/preferencias/{userId}:
  *   delete:
  *     tags: [Preferencias]
  *     security:
  *       - bearerAuth: []
- *     summary: Deletar uma preferência
+ *     summary: Deletar todas as preferências de um usuário
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: userId
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID da preferência
+ *         description: ID do usuário
  *     responses:
  *       200:
- *         description: Preferência deletada com sucesso
+ *         description: Preferências deletadas com sucesso
  *       404:
- *         description: Preferência não encontrada
+ *         description: Nenhuma preferência encontrada para deletar
  */
-router.delete('/preferencias/:id', authMiddleware, preferenciasController.deletePreferencia);
+router.delete('/preferencias/:userId', authMiddleware, preferenciasController.deletePreferenciasByUserId);
 
 module.exports = router;

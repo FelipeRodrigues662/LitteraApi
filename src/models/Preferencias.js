@@ -1,18 +1,23 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
+const user = require('./User.js');
+const genero = require('./Genero.js'); 
 
 const Preferencias = sequelize.define('Preferencias', {
-    id: {
+    userId: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        references:{
+            model: user,
+            key: 'id'
+        }
     },
-    name: {
-        type: DataTypes.STRING,
+    GeneroId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-            notEmpty: true
+        references: {
+            model: genero,
+            key: 'id'
         }
     },
     createdAt: {
