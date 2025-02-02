@@ -45,10 +45,19 @@ const User = sequelize.define('User', {
     ExternalId: {
         type: DataTypes.INTEGER,
         allowNull: true
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
     }
 }, {
-    tableName: 'users',
-    timestamps: true,
     indexes: [
         {
             unique: true,

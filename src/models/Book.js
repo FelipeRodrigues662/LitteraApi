@@ -41,9 +41,18 @@ const Book = sequelize.define('Book', {
             model: StatusBook,
             key: 'id'
         }
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
     }
-},{
-    timestamps: true,
 });
 
 module.exports = Book;
