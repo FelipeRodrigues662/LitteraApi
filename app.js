@@ -10,7 +10,9 @@ const authRoute = require('./src/routes/authRoute.js');
 const bookRoute = require('./src/routes/bookRoute.js');
 const preferenciasRoute = require('./src/routes/preferenciasRoute.js');
 const userRoute = require('./src/routes/userRoute.js');
-const generoRoute = require('./src/routes/generoRoute.js')
+const generoRoute = require('./src/routes/generoRoute.js');
+const statusBook = require('./src/routes/statusBookRoute.js');
+const typeTransaction = require('./src/routes/TypeTransactionRoute.js')
 
 const app = express();
 
@@ -40,13 +42,13 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use(cors());
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/api', authRoute, bookRoute, preferenciasRoute, userRoute, generoRoute);
+app.use('/api', authRoute, bookRoute, preferenciasRoute, userRoute, generoRoute, statusBook, typeTransaction);
 
 const PORT = 3000;
  
 async function startServer() {
   try {
-    await sequelize.sync({ force : true });
+    await sequelize.sync({ alter : true });
     console.log('Database connected successfully');
 
     app.listen(PORT, () => {
