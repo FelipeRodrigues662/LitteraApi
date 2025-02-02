@@ -1,5 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
+const TypeTransaction = require('./TypeTransaction.js')
+const Genero = require("./Genero.js")
+const StatusBook = require("./StatusBook.js")
 
 const Book = sequelize.define('Book', {
     id: {
@@ -17,16 +20,30 @@ const Book = sequelize.define('Book', {
     },
     TypeTrasactionId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: TypeTransaction,
+            key: 'id'
+        }
     },
     GeneroId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: Genero,
+            key: 'id'
+        }
     },
     StatusBookId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: StatusBook,
+            key: 'id'
+        }
     }
+},{
+    timestamps: true,
 });
 
 module.exports = Book;

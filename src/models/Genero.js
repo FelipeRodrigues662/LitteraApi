@@ -4,7 +4,7 @@ const sequelize = require('../config/database.js');
 const Genero = sequelize.define('Genero', {
     id: {
         type: DataTypes.INTEGER,
-        defaultValue: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -16,8 +16,9 @@ const Genero = sequelize.define('Genero', {
         }
 
     }
-}
-);
+},{
+    timestamps: true,
+});
 
 module.exports = Genero;
 

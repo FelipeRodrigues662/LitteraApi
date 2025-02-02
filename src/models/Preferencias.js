@@ -4,7 +4,7 @@ const sequelize = require('../config/database.js');
 const Preferencias = sequelize.define('Preferencias', {
     id: {
         type: DataTypes.INTEGER,
-        defaultValue: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -15,8 +15,9 @@ const Preferencias = sequelize.define('Preferencias', {
             notEmpty: true
         }
     }
-}
-);
+},{
+    timestamps: true,
+});
 
 module.exports = Preferencias;
 

@@ -4,7 +4,7 @@ const sequelize = require('../config/database.js');
 const StatusBook = sequelize.define('StatusBook', {
     id: {
         type: DataTypes.INTEGER,
-        defaultValue: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -16,8 +16,9 @@ const StatusBook = sequelize.define('StatusBook', {
         }
 
     }
-}
-);
+},{
+    timestamps: true,
+});
 
 module.exports = StatusBook;
 

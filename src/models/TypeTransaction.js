@@ -4,7 +4,7 @@ const sequelize = require('../config/database.js');
 const TypeTransaction = sequelize.define('TypeTransaction', {
     id: {
         type: DataTypes.INTEGER,
-        defaultValue: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -14,10 +14,11 @@ const TypeTransaction = sequelize.define('TypeTransaction', {
         validate: {
             notEmpty: true
         }
-
     }
-}
-);
+    
+},{
+    timestamps: true,
+});
 
 module.exports = TypeTransaction;
 
