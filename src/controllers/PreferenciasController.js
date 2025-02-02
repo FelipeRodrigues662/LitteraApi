@@ -1,24 +1,41 @@
-const Preferencias = require('../models/Preferencias.js');
+const { Op } = require('sequelize');
+const Preferencias = require('../models/Preferencias'); 
 
 exports.createPreferencias = async (req, res) => {
   try {
     const { generos } = req.body;
     const userId = req.user.id;
-    if (!Array.isArray(generos) || generos.length === 0) {
-      return res.status(400).json({ message: 'A lista de gêneros deve ser um array e não pode estar vazia' });
+
+    if (!Array.isArray(generos)) {
+      return res.status(400).json({ message: 'A lista de gêneros deve ser um array' });
     }
 
-    const preferencias = [];
-    for (const GeneroId of generos) {
-      const preferencia = await Preferencias.create({ userId, GeneroId });
-      preferencias.push(preferencia);
-    }
+    const preferenciasCriadasOuAtualizadas = await Promise.all(
+      generos.map(async (GeneroId) => {
+        const [preferencia] = await Preferencias.findOrCreate({
+          where: { UserId: userId, GeneroId },
+          defaults: { UserId: userId, GeneroId },
+        });
+        return preferencia;
+      })
+    );
 
-    res.status(201).json({ message: 'Preferências criadas com sucesso', preferencias });
+    await Preferencias.destroy({
+      where: {
+        UserId: userId,
+        GeneroId: { [Op.notIn]: generos },
+      },
+    });
+
+    res.status(201).json({
+      message: 'Preferências atualizadas com sucesso',
+      preferencias: preferenciasCriadasOuAtualizadas,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Erro ao criar preferências', error: error.message });
+    res.status(500).json({ message: 'Erro ao processar preferências', error: error.message });
   }
 };
+
 
 exports.getPreferenciasByUserId = async (req, res) => {
   try {

@@ -36,6 +36,9 @@ const authMiddleware = require('../middleware/auth.js');
  *               StatusBookId:
  *                 type: integer
  *                 example: 3
+ *               value:
+ *                 type: decimal
+ *                 example: 10.00
  *     responses:
  *       201:
  *         description: Book created successfully
@@ -108,6 +111,8 @@ router.get('/books/:id', authMiddleware, bookController.getBookById);
  *                 type: integer
  *               StatusBookId:
  *                 type: integer
+ *               value:
+ *                 type: decimal
  *     responses:
  *       200:
  *         description: Book updated successfully

@@ -9,9 +9,9 @@ const Preferencias = sequelize.define('Preferencias', {
         autoIncrement: true,
         primaryKey: true
     },
-    userId: {
+    UserId: {
         type: DataTypes.INTEGER,
-        references:{
+        references: {
             model: user,
             key: 'id'
         }
@@ -37,5 +37,7 @@ const Preferencias = sequelize.define('Preferencias', {
     }
 });
 
-module.exports = Preferencias;
+Preferencias.belongsTo(genero, { foreignKey: 'GeneroId' });
+Preferencias.belongsTo(user, { foreignKey: 'UserId' });
 
+module.exports = Preferencias;

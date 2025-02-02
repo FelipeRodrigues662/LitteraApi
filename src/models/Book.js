@@ -42,6 +42,10 @@ const Book = sequelize.define('Book', {
             key: 'id'
         }
     },
+    value: {
+        type: DataTypes.DECIMAL,
+        allowNull: true
+    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -54,5 +58,9 @@ const Book = sequelize.define('Book', {
         onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
     }
 });
+
+Book.belongsTo(TypeTransaction, { foreignKey: 'TypeTrasactionId' });
+Book.belongsTo(Genero, { foreignKey: 'GeneroId' });
+Book.belongsTo(StatusBook, { foreignKey: 'StatusBookId' });
 
 module.exports = Book;

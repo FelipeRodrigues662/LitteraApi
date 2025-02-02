@@ -14,7 +14,7 @@ const Imagens = sequelize.define('Imagens', {
         allowNull: true
     },
     fileContent: {
-        type: DataTypes.BLOB,
+        type: DataTypes.TEXT,
         allowNull: true
     },
     fileType: {
@@ -41,6 +41,8 @@ const Imagens = sequelize.define('Imagens', {
         onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
     }
 });
+
+Imagens.belongsTo(Book, { foreignKey: 'BookId' });
 
 module.exports = Imagens;
 

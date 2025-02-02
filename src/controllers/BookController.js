@@ -1,4 +1,7 @@
 const Book = require('../models/Book.js');
+const TypeTransaction = require('../models/TypeTransaction.js')
+const Genero = require('../models/Genero.js')
+const StatusBook = require('../models/StatusBook.js')
 
 exports.createBook = async (req, res) => {
   try {
@@ -22,7 +25,13 @@ exports.createBook = async (req, res) => {
 
 exports.getAllBooks = async (req, res) => {
   try {
-    const books = await Book.findAll();
+    const books = await Book.findAll({
+      include: [
+          { model: TypeTransaction  , attributes: ['id', 'name'] },
+          { model: Genero  , attributes: ['id', 'name'] },
+          { model: StatusBook  , attributes: ['id', 'name'] }
+      ]
+  });
     res.status(200).json({ books });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching books', error: error.message });
@@ -32,7 +41,15 @@ exports.getAllBooks = async (req, res) => {
 exports.getBookById = async (req, res) => {
   try {
     const { id } = req.params;
-    const book = await Book.findByPk(id);
+
+    const book = await Book.findOne({
+      where: { id }, 
+      include: [
+        { model: TypeTransaction , attributes: ['id', 'name'] },
+        { model: Genero  , attributes: ['id', 'name'] },
+        { model: StatusBook  , attributes: ['id', 'name'] }
+      ]
+    });
 
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });

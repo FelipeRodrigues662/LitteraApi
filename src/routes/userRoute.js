@@ -5,20 +5,6 @@ const authMiddleware = require('../middleware/auth.js');
 
 /**
  * @swagger
- * /api/users:
- *   get:
- *     tags: [Usuários]
- *     security:
- *       - bearerAuth: []
- *     summary: Buscar todos os usuários
- *     responses:
- *       200:
- *         description: Lista de usuários retornada com sucesso
- */
-router.get('/users', authMiddleware, userController.getAllUsers);
-
-/**
- * @swagger
  * /api/users/{id}:
  *   get:
  *     tags: [Usuários]
