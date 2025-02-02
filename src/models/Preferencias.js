@@ -4,9 +4,13 @@ const user = require('./User.js');
 const genero = require('./Genero.js'); 
 
 const Preferencias = sequelize.define('Preferencias', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     userId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         references:{
             model: user,
             key: 'id'

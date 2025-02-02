@@ -4,16 +4,15 @@ exports.createPreferencias = async (req, res) => {
   try {
     const { generos } = req.body;
     const userId = req.user.id;
-    
     if (!Array.isArray(generos) || generos.length === 0) {
       return res.status(400).json({ message: 'A lista de gêneros deve ser um array e não pode estar vazia' });
     }
 
-    const preferencias = await Promise.all(
-      generos.map(async (GeneroId) => {
-        return await Preferencias.create({ userId, GeneroId });
-      })
-    );
+    const preferencias = [];
+    for (const GeneroId of generos) {
+      const preferencia = await Preferencias.create({ userId, GeneroId });
+      preferencias.push(preferencia);
+    }
 
     res.status(201).json({ message: 'Preferências criadas com sucesso', preferencias });
   } catch (error) {
