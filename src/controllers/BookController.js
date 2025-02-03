@@ -11,8 +11,8 @@ exports.createBook = async (req, res) => {
       nome,
       TypeTransactionId,
       StatusBookId,
-      value,  // Certifique-se que 'value' está sendo enviado no corpo da requisição
-      description  // Certifique-se que 'description' está sendo enviado
+      value,  
+      description  
     });
 
     if (Array.isArray(generos) && generos.length > 0) {

@@ -18,20 +18,22 @@ exports.getImagemByBookId = async (req, res) => {
     }
 };
 
-exports.postImagem = async (req, res) => {
+exports.postImagens = async (req, res) => {
     try {
-        const { fileName, fileContent, fileType, BookId } = req.body;
+        const imagens = req.body.imagens;   
 
-        const novaImagem = await Imagens.create({
-            fileName,
-            fileContent,
-            fileType,
-            BookId
-        });
+        if (!Array.isArray(imagens) || imagens.length === 0) {
+            return res.status(400).json({ message: 'Nenhuma imagem enviada ou formato inválido' });
+        }
 
-        res.status(201).json({ message: 'Imagem criada com sucesso!', data: novaImagem });
+        const novasImagens = await Promise.all(imagens.map(async (imagem) => {
+            const { fileName, fileContent, fileType, BookId } = imagem;
+            return await Imagens.create({ fileName, fileContent, fileType, BookId });
+        }));
+
+        res.status(201).json({ message: 'Imagens criadas com sucesso!', data: novasImagens });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao criar Imagem', error: error.message });
+        res.status(500).json({ message: 'Erro ao criar imagens', error: error.message });
     }   
 };
 

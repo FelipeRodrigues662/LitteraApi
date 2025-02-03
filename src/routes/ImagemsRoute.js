@@ -35,7 +35,7 @@ router.get('/imagens/:BookId', authMiddleware, imagensController.getImagemByBook
  *     tags: [Imagens]
  *     security:
  *       - bearerAuth: []
- *     summary: Criar uma nova imagem
+ *     summary: Criar múltiplas imagens
  *     requestBody:
  *       required: true
  *       content:
@@ -43,24 +43,31 @@ router.get('/imagens/:BookId', authMiddleware, imagensController.getImagemByBook
  *           schema:
  *             type: object
  *             properties:
- *               fileName:
- *                 type: string
- *                 example: "capa_livro.jpg"
- *               fileContent:
- *                 type: string
- *                 format: binary
- *               fileType:
- *                 type: string
- *                 example: "image/jpeg"
- *               BookId:
- *                 type: integer
+ *               imagens:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     fileName:
+ *                       type: string
+ *                       example: "imagem1.jpg"
+ *                     fileContent:
+ *                       type: string
+ *                       format: binary
+ *                     fileType:
+ *                       type: string
+ *                       example: "image/jpeg"
+ *                     BookId:
+ *                       type: integer
  *     responses:
  *       201:
- *         description: Imagem criada com sucesso
+ *         description: Imagens criadas com sucesso
+ *       400:
+ *         description: Nenhuma imagem enviada ou formato inválido
  *       500:
- *         description: Erro ao criar imagem
+ *         description: Erro ao criar imagens
  */
-router.post('/imagens', authMiddleware, imagensController.postImagem);
+router.post('/imagens', authMiddleware, imagensController.postImagens);
 
 /**
  * @swagger

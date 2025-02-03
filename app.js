@@ -43,7 +43,7 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({limit: '10mb'}));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', authRoute, bookRoute, preferenciasRoute, userRoute, generoRoute, statusBook, typeTransaction, imagemsRoute);
 
@@ -53,7 +53,7 @@ const PORT = 3000;
  
 async function startServer() {
   try {
-    await sequelize.sync({ force : true });
+    await sequelize.sync({ alter : true });
     console.log('Database connected successfully');
 
     app.listen(PORT, () => {
