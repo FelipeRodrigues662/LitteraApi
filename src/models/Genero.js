@@ -18,18 +18,9 @@ const Genero = sequelize.define('Genero', {
     icon: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-        onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
     }
+}, {
+    timestamps: false
 });
 
 module.exports = Genero;

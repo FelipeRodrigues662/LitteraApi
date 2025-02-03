@@ -14,19 +14,9 @@ const TypeTransaction = sequelize.define('TypeTransaction', {
         validate: {
             notEmpty: true
         }
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-        onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
-    }
-    
+    } 
+}, {
+    timestamps: false
 });
 
 module.exports = TypeTransaction;
