@@ -6,13 +6,14 @@ const StatusBook = require('../models/StatusBook.js');
 exports.createBook = async (req, res) => {
   try {
     const { nome, TypeTransactionId, StatusBookId, value, description, generos } = req.body;
-
+    const ownerBook = req.user.id;
     const book = await Book.create({
       nome,
       TypeTransactionId,
       StatusBookId,
       value,  
-      description  
+      description,
+      ownerBook
     });
 
     if (Array.isArray(generos) && generos.length > 0) {
