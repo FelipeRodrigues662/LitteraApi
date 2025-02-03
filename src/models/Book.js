@@ -1,36 +1,27 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const TypeTransaction = require('./TypeTransaction.js')
-const Genero = require("./Genero.js")
-const StatusBook = require("./StatusBook.js")
+const TypeTransaction = require('./TypeTransaction.js');
+const StatusBook = require('./StatusBook.js');
 
 const Book = sequelize.define('Book', {
     id: {
         type: DataTypes.INTEGER,
-        autoIncrement: true, 
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    nome: { 
-        type: DataTypes.STRING(50), 
+    nome: {
+        type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
             notEmpty: true
         }
     },
-    TypeTrasactionId: {
+    TypeTransactionId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: TypeTransaction,
-            key: 'id'
-        }
-    },
-    GeneroId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Genero,
             key: 'id'
         }
     },
@@ -44,7 +35,14 @@ const Book = sequelize.define('Book', {
     },
     value: {
         type: DataTypes.DECIMAL,
-        allowNull: true
+        allowNull: true,
+        validate: {
+            isDecimal: true
+        }
+    },
+    description: {
+        type: DataTypes.STRING(255),
+        allowNull: true,  
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -58,9 +56,5 @@ const Book = sequelize.define('Book', {
         onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
     }
 });
-
-Book.belongsTo(TypeTransaction, { foreignKey: 'TypeTrasactionId' });
-Book.belongsTo(Genero, { foreignKey: 'GeneroId' });
-Book.belongsTo(StatusBook, { foreignKey: 'StatusBookId' });
 
 module.exports = Book;

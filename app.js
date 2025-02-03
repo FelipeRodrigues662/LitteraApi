@@ -15,6 +15,8 @@ const statusBook = require('./src/routes/statusBookRoute.js');
 const typeTransaction = require('./src/routes/TypeTransactionRoute.js')
 const imagemsRoute = require('./src/routes/ImagemsRoute.js')
 
+const defineAssociations = require('./src/models/associations.js');
+
 const app = express();
 
 const swaggerOptions = {
@@ -45,11 +47,13 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', authRoute, bookRoute, preferenciasRoute, userRoute, generoRoute, statusBook, typeTransaction, imagemsRoute);
 
+defineAssociations();
+
 const PORT = 3000;
  
 async function startServer() {
   try {
-    await sequelize.sync({ force : true });
+    await sequelize.sync({ alter : true });
     console.log('Database connected successfully');
 
     app.listen(PORT, () => {

@@ -42,7 +42,5 @@ const Imagens = sequelize.define('Imagens', {
     }
 });
 
-Imagens.belongsTo(Book, { foreignKey: 'BookId' });
-
 module.exports = Imagens;
 

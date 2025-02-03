@@ -37,7 +37,4 @@ const Preferencias = sequelize.define('Preferencias', {
     }
 });
 
-Preferencias.belongsTo(genero, { foreignKey: 'GeneroId' });
-Preferencias.belongsTo(user, { foreignKey: 'UserId' });
-
 module.exports = Preferencias;

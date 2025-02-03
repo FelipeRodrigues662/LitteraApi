@@ -3,7 +3,6 @@ const router = express.Router();
 const bookController = require('../controllers/BookController.js');
 const authMiddleware = require('../middleware/auth.js');
 
-
 /**
  * @swagger
  * /api/books:
@@ -20,25 +19,30 @@ const authMiddleware = require('../middleware/auth.js');
  *             type: object
  *             required:
  *               - nome
- *               - TypeTrasactionId
- *               - GeneroId
+ *               - TypeTransactionId
  *               - StatusBookId
+ *               - generos
  *             properties:
  *               nome:
  *                 type: string
  *                 example: "The Great Gatsby"
- *               TypeTrasactionId:
+ *               TypeTransactionId:
  *                 type: integer
  *                 example: 1
- *               GeneroId:
- *                 type: integer
- *                 example: 2
  *               StatusBookId:
  *                 type: integer
  *                 example: 3
+ *               generos:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [2, 3]
  *               value:
- *                 type: decimal
- *                 example: 10.00
+ *                  type: decimal
+ *                  example: 10.00
+ *               description:
+ *                  type: string
+ *                  example: string
  *     responses:
  *       201:
  *         description: Book created successfully
@@ -105,14 +109,23 @@ router.get('/books/:id', authMiddleware, bookController.getBookById);
  *               nome:
  *                 type: string
  *                 example: "New Title"
- *               TypeTrasactionId:
+ *               TypeTransactionId:
  *                 type: integer
- *               GeneroId:
- *                 type: integer
+ *                 example: 2
  *               StatusBookId:
  *                 type: integer
+ *                 example: 4
+ *               generos:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 4]
  *               value:
- *                 type: decimal
+ *                  type: decimal
+ *                  example: 10.00
+ *               description:
+ *                  type: string
+ *                  example: string
  *     responses:
  *       200:
  *         description: Book updated successfully
