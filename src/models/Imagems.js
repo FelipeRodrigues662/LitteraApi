@@ -14,9 +14,9 @@ const Imagens = sequelize.define('Imagens', {
         allowNull: true
     },
     fileContent: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING(16777215),
         allowNull: true
-    },    
+    },        
     fileType: {
         type: DataTypes.STRING,
         allowNull: true
