@@ -14,9 +14,9 @@ const Imagens = sequelize.define('Imagens', {
         allowNull: true
     },
     fileContent: {
-        type: DataTypes.MEDIUMTEXT,
+        type: DataTypes.TEXT('medium'),
         allowNull: true
-    },
+    },    
     fileType: {
         type: DataTypes.STRING,
         allowNull: true
