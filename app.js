@@ -12,7 +12,7 @@ const preferenciasRoute = require('./src/routes/preferenciasRoute.js');
 const userRoute = require('./src/routes/userRoute.js');
 const generoRoute = require('./src/routes/generoRoute.js');
 const statusBook = require('./src/routes/statusBookRoute.js');
-const typeTransaction = require('./src/routes/typeTransactionRoute.js');
+const typeTransaction = require('./src/routes/TypeTransactionRoute.js');
 const imagemsRoute = require('./src/routes/imagensRoute.js');
 const interessesRoute = require('./src/routes/InteressesRoute.js');
 
