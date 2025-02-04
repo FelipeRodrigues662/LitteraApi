@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController.js');
-const authMiddleware = require('../middleware/auth.js');
 
 /**
  * @swagger
@@ -62,8 +61,10 @@ router.post('/auth/register', authController.register);
  *             properties:
  *               email:
  *                 type: string
+ *                 example: "john.doe@example.com"
  *               password:
  *                 type: string
+ *                 example: "strongPassword123"
  *     responses:
  *       200:
  *         description: Authentication successful
@@ -71,3 +72,6 @@ router.post('/auth/register', authController.register);
 router.post('/auth/login', authController.login);
 
 module.exports = router;
+
+
+

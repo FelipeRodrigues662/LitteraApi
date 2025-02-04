@@ -1,13 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const { isMobilePhone } = require('validator');
-const bcrypt = require('bcryptjs');
 
 const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        allowNull: false,
         primaryKey: true
     },
     name: {
@@ -19,7 +16,7 @@ const User = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         unique: true,
         validate: {
             isEmail: true
@@ -48,10 +45,19 @@ const User = sequelize.define('User', {
     ExternalId: {
         type: DataTypes.INTEGER,
         allowNull: true
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: sequelize.literal('CURRENT_TIMESTAMP')
     }
 }, {
-    tableName: 'users',
-    timestamps: true,
     indexes: [
         {
             unique: true,

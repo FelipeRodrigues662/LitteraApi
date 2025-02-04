@@ -1,12 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const { isMobilePhone } = require('validator');
-const { type } = require('os');
 
 const StatusBook = sequelize.define('StatusBook', {
     id: {
-        type: DataTypes.Integer,
-        defaultValue: DataTypes.Integer,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -18,8 +16,9 @@ const StatusBook = sequelize.define('StatusBook', {
         }
 
     }
-}
-);
+}, {
+    timestamps: false
+});
 
 module.exports = StatusBook;
 

@@ -1,18 +1,20 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const user = require('./User.js');
-const genero = require('./Genero.js'); 
+const Book = require('./Book.js');
+const Genero = require('./Genero.js');
 
-const Preferencias = sequelize.define('Preferencias', {
+const BookGenero = sequelize.define('BookGenero', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
+        allowNull: false,
         primaryKey: true
     },
-    UserId: {
+    BookId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
-            model: user,
+            model: Book,
             key: 'id'
         }
     },
@@ -20,7 +22,7 @@ const Preferencias = sequelize.define('Preferencias', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: genero,
+            model: Genero,
             key: 'id'
         }
     }
@@ -28,4 +30,4 @@ const Preferencias = sequelize.define('Preferencias', {
     timestamps: false
 });
 
-module.exports = Preferencias;
+module.exports = BookGenero;

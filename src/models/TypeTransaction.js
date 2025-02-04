@@ -1,12 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const { isMobilePhone } = require('validator');
-const { type } = require('os');
 
 const TypeTransaction = sequelize.define('TypeTransaction', {
     id: {
-        type: DataTypes.Integer,
-        defaultValue: DataTypes.Integer,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -16,10 +14,10 @@ const TypeTransaction = sequelize.define('TypeTransaction', {
         validate: {
             notEmpty: true
         }
-
-    }
-}
-);
+    } 
+}, {
+    timestamps: false
+});
 
 module.exports = TypeTransaction;
 
