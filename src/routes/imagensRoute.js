@@ -137,4 +137,6 @@ router.patch('/imagens/:id', authMiddleware, imagensController.patchImagem);
  */
 router.delete('/imagens/:id', authMiddleware, imagensController.deleteImagem);
 
+router.get('/imagens/url/:id', imagensController.getImageById);
+
 module.exports = router;

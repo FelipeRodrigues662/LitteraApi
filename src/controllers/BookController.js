@@ -42,13 +42,23 @@ exports.getAllBooks = async (req, res) => {
         { 
           model: Imagens, 
           as: 'imagens', 
-          attributes: ['fileContent'], 
+          attributes: ['id'], 
           limit: 1 
         }
       ]
     });
 
-    res.status(200).json({ books });
+    const host = req.get('host');
+    const protocol = req.protocol;
+
+    const booksWithImageUrls = books.map(book => ({
+      ...book.toJSON(),
+      imagens: book.imagens.length > 0 
+        ? `${protocol}://${host}/api/imagens/url/${book.imagens[0].id}` 
+        : null
+    }));
+
+    res.status(200).json({ books: booksWithImageUrls });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching books', error: error.message });
@@ -68,7 +78,7 @@ exports.getBookById = async (req, res) => {
         { 
           model: Imagens, 
           as: 'imagens', 
-          attributes: ['fileContent'] 
+          attributes: ['id'] 
         }
       ]
     });
@@ -77,13 +87,22 @@ exports.getBookById = async (req, res) => {
       return res.status(404).json({ message: 'Book not found' });
     }
 
-    res.status(200).json({ book });
+    const host = req.get('host');
+    const protocol = req.protocol;
+
+    const bookWithImageUrls = {
+      ...book.toJSON(),
+      imagens: book.imagens.length > 0 
+        ? book.imagens.map(img => `${protocol}://${host}/api/imagens/url/${img.id}`) 
+        : []
+    };
+
+    res.status(200).json({ book: bookWithImageUrls });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching book', error: error.message });
   }
 };
-
 
 exports.updateBook = async (req, res) => {
   try {
@@ -134,3 +153,6 @@ exports.deleteBook = async (req, res) => {
     res.status(500).json({ message: 'Error deleting book', error: error.message });
   }
 };
+
+
+

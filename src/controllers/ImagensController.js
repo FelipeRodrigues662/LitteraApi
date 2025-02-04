@@ -75,3 +75,29 @@ exports.deleteImagem = async (req, res) => {
         res.status(500).json({ message: 'Erro ao deletar Imagem', error: error.message });
     }
 };
+
+exports.getImageById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const imagem = await Imagens.findOne({
+            where: { id },
+            attributes: ['fileContent', 'fileType']
+        });
+
+        if (!imagem) {
+            return res.status(404).json({ message: 'Image not found' });
+        }
+
+        res.setHeader('Content-Type', 'image/jpg');
+
+        if (Buffer.isBuffer(imagem.fileContent)) {
+            res.send(imagem.fileContent);
+        } else {
+            res.send(Buffer.from(imagem.fileContent, 'base64'));
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching image', error: error.message });
+    }
+};
