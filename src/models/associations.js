@@ -19,7 +19,8 @@ const defineAssociations = () => {
     Genero.belongsToMany(Book, { through: BookGenero, foreignKey: 'GeneroId' });
 
     // Imagens
-    Imagens.belongsTo(Book, { foreignKey: 'BookId' });
+    Book.hasMany(Imagens, { foreignKey: 'BookId', as: 'imagens' });
+    Imagens.belongsTo(Book, { foreignKey: 'BookId', as: 'book' });
 
     // Preferencias
     Preferencias.belongsTo(Genero, { foreignKey: 'GeneroId' }); 

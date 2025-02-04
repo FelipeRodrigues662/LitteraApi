@@ -2,6 +2,7 @@ const Book = require('../models/Book.js');
 const TypeTransaction = require('../models/TypeTransaction.js');
 const Genero = require('../models/Genero.js');
 const StatusBook = require('../models/StatusBook.js');
+const Imagens = require('../models/Imagems.js');
 
 exports.createBook = async (req, res) => {
   try {
@@ -37,7 +38,13 @@ exports.getAllBooks = async (req, res) => {
       include: [
         { model: TypeTransaction, attributes: ['id', 'name'] },
         { model: Genero, attributes: ['id', 'name'], through: { attributes: [] } },
-        { model: StatusBook, attributes: ['id', 'name'] }
+        { model: StatusBook, attributes: ['id', 'name'] },
+        { 
+          model: Imagens, 
+          as: 'imagens', 
+          attributes: ['fileContent'], 
+          limit: 1 
+        }
       ]
     });
 
@@ -57,7 +64,12 @@ exports.getBookById = async (req, res) => {
       include: [
         { model: TypeTransaction, attributes: ['id', 'name'] },
         { model: Genero, attributes: ['id', 'name'], through: { attributes: [] } },
-        { model: StatusBook, attributes: ['id', 'name'] }
+        { model: StatusBook, attributes: ['id', 'name'] },
+        { 
+          model: Imagens, 
+          as: 'imagens', 
+          attributes: ['fileContent'] 
+        }
       ]
     });
 
@@ -71,6 +83,7 @@ exports.getBookById = async (req, res) => {
     res.status(500).json({ message: 'Error fetching book', error: error.message });
   }
 };
+
 
 exports.updateBook = async (req, res) => {
   try {
