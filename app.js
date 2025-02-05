@@ -16,6 +16,7 @@ const typeTransaction = require('./src/routes/TypeTransactionRoute.js');
 const imagemsRoute = require('./src/routes/imagensRoute.js');
 const interessesRoute = require('./src/routes/InteressesRoute.js');
 const chatRoutes = require('./src/routes/chatRoutes.js');
+const notificationRoute = require('./src/routes/notificationRoute.js');
 
 const defineAssociations = require('./src/models/associations.js');
 
@@ -47,7 +48,19 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use(cors());
 app.use(express.json({limit: '10mb'}));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/api', authRoute, bookRoute, preferenciasRoute, userRoute, generoRoute, statusBook, typeTransaction, imagemsRoute, interessesRoute, chatRoutes);
+app.use('/api',
+         authRoute, 
+         bookRoute, 
+         preferenciasRoute, 
+         userRoute, 
+         generoRoute, 
+         statusBook, 
+         typeTransaction, 
+         imagemsRoute, 
+         interessesRoute, 
+         chatRoutes, 
+         notificationRoute
+);
 
 defineAssociations();
 

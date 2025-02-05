@@ -1,61 +1,45 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database.js');
-const TypeTransaction = require('./TypeTransaction.js');
-const StatusBook = require('./StatusBook.js');
-const User = require('./User.js')
+const User = require('./User.js');
+const Book = require('./Book.js');
 
-const Book = sequelize.define('Book', {
+const Notification = sequelize.define('Notification', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    nome: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    TypeTransactionId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: TypeTransaction,
-            key: 'id'
-        }
-    },
-    StatusBookId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: StatusBook,
-            key: 'id'
-        }
-    },
-    value: {
-        type: DataTypes.DECIMAL,
-        allowNull: true,
-        validate: {
-            isDecimal: true
-        }
-    },
-    ownerBook:{
+    UserId: { 
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: User,
             key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
     },
-    description: {
-        type: DataTypes.STRING(255),
-        allowNull: true,  
+    BookId: { 
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Book,
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
     },
-    isActive: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
+    InterestedUserId: { 
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
+    },
+    message: { 
+        type: DataTypes.STRING,
+        allowNull: false
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -70,4 +54,4 @@ const Book = sequelize.define('Book', {
     }
 });
 
-module.exports = Book;
+module.exports = Notification;

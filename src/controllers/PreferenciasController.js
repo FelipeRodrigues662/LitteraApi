@@ -37,7 +37,6 @@ exports.createPreferencias = async (req, res) => {
   }
 };
 
-
 exports.getPreferenciasByUserId = async (req, res) => {
   try {
     const { userId } = req.params;

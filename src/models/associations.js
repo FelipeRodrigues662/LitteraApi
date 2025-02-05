@@ -9,6 +9,7 @@ const defineAssociations = () => {
     const Imagens = require('./Imagems.js');
     const Preferencias = require('./Preferencias.js');
     const Interesses = require('./Interesses.js');
+    const Notification = require('./Notification.js')
 
     // Book
     Book.belongsTo(TypeTransaction, { foreignKey: 'TypeTransactionId' }); 
@@ -27,8 +28,19 @@ const defineAssociations = () => {
     Preferencias.belongsTo(User, { foreignKey: 'UserId' });
 
     // Interesses
-    Book.belongsToMany(User, { through: Interesses, foreignKey: 'BookId' })
-    User.belongsToMany(Book, { through: Interesses, foreignKey: 'UserId' })
+    Book.belongsToMany(User, { through: Interesses, foreignKey: 'BookId', otherKey: 'UserId' });
+    User.belongsToMany(Book, { through: Interesses, foreignKey: 'UserId', otherKey: 'BookId' });
+
+    Interesses.belongsTo(Book, { foreignKey: 'BookId' });
+    Interesses.belongsTo(User, { foreignKey: 'UserId' });
+
+    Book.hasMany(Interesses, { foreignKey: 'BookId' });
+    User.hasMany(Interesses, { foreignKey: 'UserId' });
+
+    // Notifications
+    Notification.belongsTo(User, { foreignKey: 'UserId' }); 
+    Notification.belongsTo(Book, { foreignKey: 'BookId' }); 
+    Notification.belongsTo(User, { foreignKey: 'InterestedUserId', as: 'InterestedUser' });
 };
 
 module.exports = defineAssociations;
