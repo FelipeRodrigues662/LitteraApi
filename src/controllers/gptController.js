@@ -23,15 +23,14 @@ exports.postPrompt = async (req, res) => {
 
         Exemplo de formato esperado:  
 
-
+        
             {
                 "titulo": "Nome do Livro",
                 "descricao": "Uma breve explicação do motivo pelo qual o livro é uma ótima leitura.",
                 "capa_url": "URL da imagem da capa"
             },
-
         
-        Retorne somente o JSON sem barra 'n'
+            Não quero que tenha nenhum barra 'n' somente o json puro.
         `;
 
 
@@ -63,9 +62,8 @@ exports.postPrompt = async (req, res) => {
 
             response.on('end', () => {
                 const parsedData = JSON.parse(responseData);
-                const cleanMessage = parsedData.choices[0].message.content;
-                res.json({ message: cleanMessage });
-            });            
+                res.json({ message: parsedData.choices[0].message.content });
+            });
         });
 
         request.on('error', (error) => {
