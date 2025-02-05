@@ -54,5 +54,5 @@ jobs:
           -e DB_USER=${{ secrets.DB_USER }} \
           -e DB_PASS=\${{ secrets.DB_PASS }} \
           -e DB_NAME=${{ secrets.DB_NAME }} \
-          feliperodrigues662/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }
-        
+          -e OPENROUTER_API_KEY = ${{secrets.OPENROUTER_API_KEY}} \
+        feliperodrigues662/litteraapi:latest || { echo "Falha ao iniciar o contêiner"; exit 1; }

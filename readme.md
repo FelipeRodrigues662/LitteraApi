@@ -6,4 +6,4 @@
 
     docker run -d --name MYADMIN -h myadmin --network Banco -e PMA_HOST=db -p 8080:80 phpmyadmin/phpmyadmin
 
-    npm install express jsonwebtoken dotenv cors swagger-ui-express swagger-jsdoc bcryptjs sequelize mariadb
+    npm install express jsonwebtoken dotenv cors swagger-ui-express swagger-jsdoc bcryptjs sequelize mariadb firebase-admin
