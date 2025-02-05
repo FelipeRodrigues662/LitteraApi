@@ -32,7 +32,7 @@ exports.createOrUpdateInteresses = async (req, res) => {
     }
 };
 
-exports.getInteressesByBookId = async (req, res) => {
+exports.getInteressesByUserId = async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -88,5 +88,20 @@ exports.getInteressesAllUsersByBookId = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching book interests', error: error.message });
+    }
+};
+
+exports.getInteressesByBookId = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { bookId } = req.params;
+
+        const interesses = await Interesses.findOne({
+            where: { UserId: userId, BookId: bookId },
+        });
+       
+        res.status(200).json(!!interesses );
+    } catch (error) {
+        res.status(500).json(false);
     }
 };

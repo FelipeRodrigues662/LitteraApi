@@ -65,7 +65,7 @@ router.post('/interesses', authMiddleware, interessesController.createOrUpdateIn
  *       500:
  *         description: Erro ao buscar os interesses
  */
-router.get('/interesses', authMiddleware, interessesController.getInteressesByBookId);
+router.get('/interesses', authMiddleware, interessesController.getInteressesByUserId);
 
 /**
  * @swagger
@@ -121,5 +121,46 @@ router.get('/interesses', authMiddleware, interessesController.getInteressesByBo
  *         description: Erro ao buscar interessados
  */
 router.get('/interesses/:bookId', authMiddleware, interessesController.getInteressesAllUsersByBookId);
+
+/**
+ * @swagger
+ * /api/interesses/bookId/{bookId}:
+ *   get:
+ *     tags: [Interesses]
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Lista se o usuário tem interrese no livro
+ *     parameters:
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do livro
+ *     responses:
+ *       200:
+ *         description: Lista se o usuário tem interrese no livro 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   nome:
+ *                     type: string
+ *                     example: "O Senhor dos Anéis"
+ *                   ownerBook:
+ *                     type: integer
+ *                     example: 2
+ *       401:
+ *         description: Não autorizado
+ *       500:
+ *         description: Erro ao buscar os interesses
+ */
+router.get('/interesses/bookId/:bookId', authMiddleware, interessesController.getInteressesByBookId);
 
 module.exports = router;
