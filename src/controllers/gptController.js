@@ -1,5 +1,6 @@
 const https = require('https');
 const preferencias = require('./PreferenciasController.js');
+require('dotenv').config();
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const BASE_URL = "https://openrouter.ai/api/v1";
@@ -11,28 +12,12 @@ exports.postPrompt = async (req, res) => {
         const generos = await preferencias.getPreferenciasPrompt(userId);
         const generosFormatados = generos || "qualquer gênero"; 
 
-        const prompt = 
-        `Haja como um bibliotecário especializado e recomende 10 livros baseados nos seguintes gêneros: ${generosFormatados}.  
+        const prompt = `Haja como um bibliotecário especializado e recomende 10 livros baseados nos seguintes gêneros: ${generosFormatados}.  
         Forneça a resposta no formato JSON, garantindo que cada recomendação inclua:  
-
         - "titulo": O nome do livro  
         - "descricao": Um breve resumo explicando por que o usuário deve ler esse livro  
-        - "capa_url": Um link para uma imagem da capa do livro  
-
         Responda apenas com o JSON, sem explicações adicionais.  
-
-        Exemplo de formato esperado:  
-
-        
-            {
-                "titulo": "Nome do Livro",
-                "descricao": "Uma breve explicação do motivo pelo qual o livro é uma ótima leitura.",
-                "capa_url": "URL da imagem da capa"
-            },
-        
-            Não quero que tenha nenhum barra 'n' somente o json puro.
         `;
-
 
         const data = JSON.stringify({
             model: "deepseek/deepseek-r1:free",
@@ -62,7 +47,11 @@ exports.postPrompt = async (req, res) => {
 
             response.on('end', () => {
                 const parsedData = JSON.parse(responseData);
-                res.json({ message: parsedData.choices[0].message.content });
+                let content = (parsedData.choices[0].message.content);
+
+                content = content.replace(/```json\n?/g, "").replace(/```/g, "").trim();
+
+                res.json(JSON.parse(content));
             });
         });
 
