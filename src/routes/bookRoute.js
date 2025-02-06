@@ -43,6 +43,12 @@ const authMiddleware = require('../middleware/auth.js');
  *               description:
  *                  type: string
  *                  example: string
+ *               cidade:
+ *                  type: string
+ *                  example: São Paulo
+ *               isActive:
+ *                  type: boolean
+ *                  example: true
  *     responses:
  *       201:
  *         description: Book created successfully
@@ -126,6 +132,12 @@ router.get('/books/:id', authMiddleware, bookController.getBookById);
  *               description:
  *                  type: string
  *                  example: string
+ *               cidade:
+ *                  type: string
+ *                  example: São Paulo
+ *               isActive:
+ *                  type: boolean
+ *                  example: true
  *     responses:
  *       200:
  *         description: Book updated successfully

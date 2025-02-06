@@ -6,7 +6,7 @@ const Imagens = require('../models/Imagems.js');
 
 exports.createBook = async (req, res) => {
   try {
-    const { nome, TypeTransactionId, StatusBookId, value, description, generos } = req.body;
+    const { nome, TypeTransactionId, StatusBookId, value, description, generos, cidade, isActive } = req.body;
     const ownerBook = req.user.id;
     const book = await Book.create({
       nome,
@@ -14,7 +14,9 @@ exports.createBook = async (req, res) => {
       StatusBookId,
       value,  
       description,
-      ownerBook
+      ownerBook,
+      cidade,
+      isActive
     });
 
     if (Array.isArray(generos) && generos.length > 0) {
@@ -108,7 +110,7 @@ exports.getBookById = async (req, res) => {
 exports.updateBook = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nome, TypeTransactionId, StatusBookId, generos, value, description } = req.body;
+    const { nome, TypeTransactionId, StatusBookId, generos, value, description, cidade, isActive } = req.body;
 
     const book = await Book.findByPk(id);
     if (!book) {
@@ -120,6 +122,8 @@ exports.updateBook = async (req, res) => {
     if (StatusBookId) book.StatusBookId = StatusBookId;
     if (value) book.value = value;
     if (description) book.description = description;
+    if (cidade) book.cidade = cidade;
+    if (isActive) book.isActive = isActive;
 
     await book.save();
 

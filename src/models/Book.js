@@ -53,6 +53,10 @@ const Book = sequelize.define('Book', {
         type: DataTypes.STRING(255),
         allowNull: true,  
     },
+    cidade:{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
