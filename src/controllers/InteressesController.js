@@ -2,6 +2,10 @@ const Interesses = require('../models/Interesses');
 const Book = require('../models/Book.js');
 const User = require('../models/User.js');
 const Notification = require('./NotificationsController.js');
+const Imagens = require('../models/Imagems.js');
+const TypeTransaction = require('../models/TypeTransaction.js');
+const Genero = require('../models/Genero.js');
+const StatusBook = require('../models/StatusBook.js');
 
 exports.createOrUpdateInteresses = async (req, res) => {
     try {
@@ -38,13 +42,36 @@ exports.getInteressesByUserId = async (req, res) => {
 
         const interesses = await Interesses.findAll({
             where: { UserId: userId },
-            include: [{ model: Book }]
+            include: [{
+                model: Book, 
+                include: [
+                    { model: TypeTransaction, attributes: ['id', 'name'] },
+                    { model: Genero, attributes: ['id', 'name'], through: { attributes: [] } },
+                    { model: StatusBook, attributes: ['id', 'name'] },
+                    { model: Imagens, as: 'imagens', attributes: ['id'] }
+                ]
+            }]
         });
 
-        const books = interesses.map(interesse => interesse.Book);
+        const host = req.get('host');
+        const protocol = req.protocol;
+
+        const books = interesses.map(interesse => {
+            const book = interesse.Book;
+
+            if (!book) return null; 
+
+            return {
+                ...book.toJSON(),
+                imagens: book.imagens.length > 0 
+                    ? book.imagens.map(img => `${protocol}://${host}/api/imagens/url/${img.id}`)
+                    : []
+            };
+        }).filter(book => book !== null); 
 
         res.status(200).json({ books });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Error fetching interested books', error: error.message });
     }
 };

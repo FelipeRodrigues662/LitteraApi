@@ -117,17 +117,17 @@ exports.updateBook = async (req, res) => {
       return res.status(404).json({ message: 'Book not found' });
     }
 
-    if (nome) book.nome = nome;
-    if (TypeTransactionId) book.TypeTransactionId = TypeTransactionId;
-    if (StatusBookId) book.StatusBookId = StatusBookId;
-    if (value) book.value = value;
-    if (description) book.description = description;
-    if (cidade) book.cidade = cidade;
-    if (isActive) book.isActive = isActive;
+    if (nome !== undefined) book.nome = nome;
+    if (TypeTransactionId !== undefined) book.TypeTransactionId = TypeTransactionId;
+    if (StatusBookId !== undefined) book.StatusBookId = StatusBookId;
+    if (value !== undefined) book.value = value;
+    if (description !== undefined) book.description = description;
+    if (cidade !== undefined) book.cidade = cidade;
+    if (isActive !== undefined) book.isActive = isActive;
 
     await book.save();
 
-    if (Array.isArray(generos) && generos.length > 0) {
+    if (Array.isArray(generos)) {
       const generoInstances = await Genero.findAll({ where: { id: generos } });
       await book.setGeneros(generoInstances);
     }
@@ -141,6 +141,7 @@ exports.updateBook = async (req, res) => {
     res.status(500).json({ message: 'Error updating book', error: error.message });
   }
 };
+
 
 exports.deleteBook = async (req, res) => {
   try {

@@ -55,7 +55,7 @@ exports.getUserNotifications = async (req, res) => {
         });
 
         const interestCount = await Notification.findAll({
-            where: { UserId: userId },
+            where: { UserId: userId , view: false},
             attributes: ['BookId', [sequelize.fn('COUNT', sequelize.col('InterestedUserId')), 'interestCount']],
             group: ['BookId']
         });
@@ -66,4 +66,19 @@ exports.getUserNotifications = async (req, res) => {
     }
 };
 
+exports.readNotification = async (req, res) => {
+    try {
+        const userId = req.user.id; 
+
+        await Notification.update(
+            { view: true },
+            { where: { UserId: userId } }
+        );
+
+        res.status(200).json({ message: 'All notifications marked as read' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error updating notifications', error: error.message });
+    }
+};
 

@@ -41,6 +41,10 @@ const Notification = sequelize.define('Notification', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    view: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

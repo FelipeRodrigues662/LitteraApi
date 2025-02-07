@@ -16,7 +16,8 @@ const Interesses = sequelize.define('Interesses', {
         references: {
             model: Book,
             key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
     },
     UserId: {
         type: DataTypes.INTEGER,
@@ -24,7 +25,8 @@ const Interesses = sequelize.define('Interesses', {
         references: {
             model: User,
             key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
     },
     createdAt: {
         type: DataTypes.DATE,
