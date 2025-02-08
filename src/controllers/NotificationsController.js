@@ -55,14 +55,10 @@ exports.getUserNotifications = async (req, res) => {
         });
 
         const interestCount = await Notification.findAll({
-            where: { UserId: userId, view: false },
-            attributes: [
-                'BookId',
-                [sequelize.fn('COUNT', sequelize.col('InterestedUserId')), 'interestCount']
-            ],
-            group: ['BookId'],
-            having: sequelize.literal('COUNT(CASE WHEN view = false THEN 1 END) > 0')
-        });        
+            where: { UserId: userId , view: false},
+            attributes: ['BookId', [sequelize.fn('COUNT', sequelize.col('InterestedUserId')), 'interestCount']],
+            group: ['BookId']
+        });
 
         return res.status(200).json({ notifications, interestCount });
     } catch (error) {
