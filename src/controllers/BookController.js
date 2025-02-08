@@ -37,7 +37,6 @@ exports.createBook = async (req, res) => {
 exports.getAllBooks = async (req, res) => {
   try {
     const books = await Book.findAll({
-      where: { isActive: true },
         include: [
         { model: TypeTransaction, attributes: ['id', 'name'] },
         { model: Genero, attributes: ['id', 'name'], through: { attributes: [] } },
