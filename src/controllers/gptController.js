@@ -8,9 +8,8 @@ const BASE_URL = "https://openrouter.ai/api/v1";
 exports.postPrompt = async (req, res) => {
     try {
         const userId = req.user.id;
-
         const generos = await preferencias.getPreferenciasPrompt(userId);
-        const generosFormatados = generos || "qualquer gênero"; 
+        const generosFormatados = generos || "qualquer gênero";
 
         const prompt = `Haja como um bibliotecário especializado e recomende 10 livros baseados nos seguintes gêneros: ${generosFormatados}.  
         Forneça a resposta no formato JSON, garantindo que cada recomendação inclua:  
@@ -34,7 +33,7 @@ exports.postPrompt = async (req, res) => {
             headers: {
                 'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
                 'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Length': Buffer.byteLength(data)
             }
         };
 
@@ -46,25 +45,36 @@ exports.postPrompt = async (req, res) => {
             });
 
             response.on('end', () => {
-                const parsedData = JSON.parse(responseData);
-                let content = (parsedData.choices[0].message.content);
+                try {
+                    const parsedData = JSON.parse(responseData);
+                    let content = parsedData.choices?.[0]?.message?.content || '{}';
 
-                content = content.replace(/```json\n?/g, "").replace(/```/g, "").trim();
+                    content = content.replace(/```json\n?/g, "").replace(/```/g, "").trim();
 
-                res.json(JSON.parse(content));
+                    res.json(JSON.parse(content));
+                } catch (error) {
+                    console.error('JSON Parse Error:', error);
+                    res.status(500).json({ error: 'Erro ao processar a resposta da API externa' });
+                }
             });
         });
 
         request.on('error', (error) => {
-            console.error('Error:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Request Error:', error);
+            res.status(502).json({ error: 'Erro ao se comunicar com a API externa' });
+        });
+
+        request.setTimeout(200000, () => {
+            console.error('Request timeout');
+            request.abort();
+            res.status(504).json({ error: 'Tempo limite excedido na requisição' });
         });
 
         request.write(data);
         request.end();
 
     } catch (error) {
-        console.error('Error:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Unexpected Error:', error);
+        res.status(500).json({ error: 'Erro interno no servidor' });
     }
 };

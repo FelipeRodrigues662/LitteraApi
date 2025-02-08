@@ -58,9 +58,10 @@ exports.getUserNotifications = async (req, res) => {
             where: { UserId: userId, view: false },
             attributes: [
                 'BookId',
-                [sequelize.fn('COUNT', sequelize.col('*')), 'interestCount']
+                [sequelize.fn('COUNT', sequelize.col('InterestedUserId')), 'interestCount']
             ],
-            group: ['BookId']
+            group: ['BookId'],
+            having: sequelize.literal('COUNT(CASE WHEN view = false THEN 1 END) > 0')
         });        
 
         return res.status(200).json({ notifications, interestCount });
