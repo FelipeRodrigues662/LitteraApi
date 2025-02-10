@@ -68,7 +68,7 @@ const PORT = 3000;
 
 async function startServer() {
   try {
-    await sequelize.sync({ force : true });
+    await sequelize.sync({ alter : true });
     console.log('Database connected successfully');
 
     app.listen(PORT, () => {
