@@ -16,12 +16,13 @@ exports.getUserById = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, phone } = req.body;
+    const { name, nickname, email, phone } = req.body;
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
     user.name = name || user.name;
+    user.nickname = nickname || user.nickname;
     user.email = email || user.email;
     user.phone = phone || user.phone;
     await user.save();

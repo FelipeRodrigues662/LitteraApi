@@ -16,12 +16,16 @@ const authController = require('../controllers/authController.js');
  *             type: object
  *             required:
  *               - name
+ *               - nickname
  *               - password
  *               - phone
  *             properties:
  *               name:
  *                 type: string
  *                 example: "John Doe"
+ *               nickname:
+ *                 type: string
+ *                 example: "Doe"
  *               email:
  *                 type: string
  *                 format: email

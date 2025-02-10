@@ -50,6 +50,8 @@ router.get('/users/:id', authMiddleware, userController.getUserById);
  *             properties:
  *               name:
  *                 type: string
+ *               nickname:
+ *                 type: string
  *               email:
  *                 type: string
  *               phone:

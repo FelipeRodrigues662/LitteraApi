@@ -4,7 +4,7 @@ const User = require('../models/User.js');
 
 exports.register = async (req, res) => {
     try {
-        const { name, email, password, phone, cpf } = req.body;
+        const { name, nickname, email, password, phone, cpf } = req.body;
         
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
@@ -14,6 +14,7 @@ exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = await User.create({
             name,
+            nickname,
             email,
             password: hashedPassword,
             phone,
